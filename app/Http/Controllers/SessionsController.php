@@ -8,6 +8,10 @@ use Auth;
 
 class SessionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest', ['only' => ['create']]);
+    }
     public function create()
     {
         return view('sessions.create');
@@ -20,7 +24,7 @@ class SessionsController extends Controller
         'password' => 'required'
        ]);
        if(Auth::attempt($credentials, $request->has('remember'))) {
-            return redirect()->route('users.show', [Auth::user()])->with('success', '欢迎回来');
+            return redirect()->intended(route('users.show', [Auth::user()]))->with('success', '欢迎回来');
        }else {
             return redirect()->back()->with('danger', '很抱歉，邮箱和密码不匹配');
        }
