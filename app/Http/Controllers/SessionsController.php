@@ -24,7 +24,7 @@ class SessionsController extends Controller
         'password' => 'required'
        ]);
        if(Auth::attempt($credentials, $request->has('remember'))) {
-            if (Auth::User->activated)
+            if (Auth::User()->activated)
                 {
                      return redirect()->intended(route('users.show', [Auth::user()]))->with('success', '欢迎回来');
                  } else {
